@@ -1,4 +1,5 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
+import { revealClass } from '../../hooks/useScrollReveal.ts'
 import type { Weekday } from '../../config/businessConfig.types.ts'
 import { Container } from './Container.tsx'
 import {
@@ -38,7 +39,7 @@ export function Footer() {
   return (
     <footer className="footer">
       <Container>
-        <div className="footer__grid">
+        <div className={`footer__grid ${revealClass(1)}`}>
           <div className="footer__column footer__column--brand">
             <a href="#" className="footer__brand">
               {identity.logo.src && (

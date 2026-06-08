@@ -1,4 +1,5 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
+import { revealClass } from '../../hooks/useScrollReveal.ts'
 import { buildWhatsAppUrl } from '../../utils/buildWhatsAppUrl.ts'
 import { CtaLink } from '../ui/CtaLink.tsx'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
@@ -13,10 +14,10 @@ export function ContactSection() {
   const heading = sectionHeadings.contact
 
   return (
-    <Section id="contact" className="contact contact-zone">
+    <Section className="contact contact-zone">
       <Container>
         {heading && <SectionHeading title={heading.title} subtitle={heading.subtitle} />}
-        <div className="contact__body">
+        <div className={`contact__body ${revealClass(2)}`}>
           <div className="contact__details">
             <p className="contact__item">
               <a href={phoneHref} className="contact__link">

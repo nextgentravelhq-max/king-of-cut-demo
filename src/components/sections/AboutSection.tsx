@@ -1,4 +1,5 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
+import { revealClass } from '../../hooks/useScrollReveal.ts'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
 import { Container } from '../layout/Container.tsx'
 import { Section } from '../layout/Section.tsx'
@@ -22,11 +23,15 @@ export function AboutSection() {
       <Container>
         <div className={gridClassName}>
           <div className="about__content">
-            <SectionHeading title={heading.title} subtitle={heading.subtitle} />
-            <p className="about__text">{about.text}</p>
+            <SectionHeading
+              title={heading.title}
+              subtitle={heading.subtitle}
+              className={revealClass()}
+            />
+            <p className={`about__text ${revealClass(1)}`}>{about.text}</p>
           </div>
           {about.image && (
-            <div className="about__media">
+            <div className={`about__media ${revealClass(2)}`}>
               <img
                 src={about.image}
                 alt={about.title}

@@ -1,5 +1,6 @@
 import type { DaySchedule, Weekday } from '../../config/businessConfig.types.ts'
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
+import { revealClass } from '../../hooks/useScrollReveal.ts'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
 import { Container } from '../layout/Container.tsx'
 import { Section } from '../layout/Section.tsx'
@@ -99,7 +100,7 @@ export function OpeningHoursSection() {
     <Section id="opening-hours" className="opening-hours contact-zone">
       <Container>
         {heading && <SectionHeading title={heading.title} subtitle={heading.subtitle} />}
-        <dl className="opening-hours__list">
+        <dl className={`opening-hours__list ${revealClass(1)}`}>
           {groups.map((group) => (
             <div key={group.days} className="opening-hours__row">
               <dt className="opening-hours__day">{group.days}</dt>

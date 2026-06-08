@@ -1,4 +1,5 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
+import { revealClass, revealStaggerClass } from '../../hooks/useScrollReveal.ts'
 import { computeReviewStats } from '../../utils/computeReviewStats.ts'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
 import { Container } from '../layout/Container.tsx'
@@ -42,11 +43,17 @@ export function ReviewsSection() {
   })
 
   return (
-    <Section id="reviews" className="reviews">
+    <Section id="reviews" className="reviews section-anchor">
       <Container>
-        {heading && <SectionHeading title={heading.title} subtitle={heading.subtitle} />}
+        {heading && (
+          <SectionHeading
+            title={heading.title}
+            subtitle={heading.subtitle}
+            className={revealClass()}
+          />
+        )}
         <p
-          className="reviews__summary"
+          className={`reviews__summary ${revealClass(1)}`}
           role="img"
           aria-label={`${formattedRating} von 5, ${totalReviews} Bewertungen`}
         >
@@ -63,8 +70,8 @@ export function ReviewsSection() {
           </span>
         </p>
         <ul className="reviews__grid">
-          {reviews.map((review) => (
-            <li key={review.id} className="reviews__card">
+          {reviews.map((review, index) => (
+            <li key={review.id} className={`reviews__card ${revealStaggerClass(index)}`}>
               <StarRating rating={review.rating} />
               <blockquote className="reviews__text">{review.text}</blockquote>
               <footer className="reviews__footer">

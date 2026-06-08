@@ -1,4 +1,5 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
+import { revealClass } from '../../hooks/useScrollReveal.ts'
 import { CtaLink } from '../ui/CtaLink.tsx'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
 import { Container } from '../layout/Container.tsx'
@@ -20,7 +21,7 @@ export function MapSection() {
         <div className="map__panel">
           {heading && <SectionHeading title={heading.title} subtitle={heading.subtitle} />}
           {maps.linkUrl && (
-            <div className="map__actions">
+            <div className={`map__actions ${revealClass(1)}`}>
               <CtaLink
                 href={maps.linkUrl}
                 label="Route planen"
@@ -30,7 +31,7 @@ export function MapSection() {
               />
             </div>
           )}
-          <div className="map__embed">
+          <div className={`map__embed ${revealClass(2)}`}>
             <iframe
               src={maps.embedUrl}
               className="map__iframe"
