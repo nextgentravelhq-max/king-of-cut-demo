@@ -1,0 +1,58 @@
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--cta-height-compact);
+  padding: 0 var(--space-xl);
+  border-radius: var(--cta-radius);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cta--primary {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+a.cta--primary {
+  color: var(--color-surface);
+}
+
+.cta--primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+a.cta--primary:hover {
+  color: var(--color-surface);
+}
+
+.cta--secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+.cta--secondary:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-hover);
+}
+
+.cta--compact {
+  min-height: var(--cta-height-compact);
+  padding: 0 var(--space-md);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .cta--compact {
+    font-size: 0.9375rem;
+  }
+}

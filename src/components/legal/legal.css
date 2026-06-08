@@ -1,0 +1,37 @@
+.legal {
+  padding-block: var(--space-3xl);
+  background-color: var(--color-surface);
+  scroll-margin-top: var(--header-height);
+}
+
+.legal__content {
+  max-width: 42rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.legal__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.legal__section-title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.legal__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.legal__list {
+  margin: 0;
+  padding-left: var(--space-lg);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
