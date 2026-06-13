@@ -84,7 +84,7 @@ export const businessConfig: BusinessConfig = {
 
   about: {
     title: 'Über uns',
-    text: 'King of Cut steht für saubere Schnitte, präzise Fades und entspannte Atmosphäre. Ob klassischer Herrenhaarschnitt, moderner Fade oder Bartpflege – hier wird Wert auf Qualität, sauberes Handwerk und persönliche Beratung gelegt. Faire Preise, klare Ergebnisse und ein Look, der zu dir passt.',
+    text: 'Wir machen keine Experimente. Du willst sauber, du willst schnell, du willst stabil? Dann bist du bei King of Cut genau richtig. Schnapp dir den Platz, lehn dich zurück & wir erledigen den Rest.',
     image: '/Hero-Bild.png',
   },
 
@@ -226,7 +226,6 @@ export const businessConfig: BusinessConfig = {
     },
     about: {
       title: 'Über uns',
-      subtitle: 'Barbershop an der Kameruner Straße — kurz vorgestellt.',
     },
     reviews: {
       title: 'Bewertungen',

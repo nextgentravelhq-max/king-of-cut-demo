@@ -25,13 +25,15 @@ export function AboutSection() {
           <div className="about__content">
             <SectionHeading
               title={heading.title}
-              subtitle={heading.subtitle}
               className={revealClass()}
             />
-            <p className={`about__text ${revealClass(1)}`}>{about.text}</p>
+            <p className={`about__subtitle ${revealClass(1)}`}>
+              <strong>King of Cut:</strong> Wenn der Fade sitzen muss.
+            </p>
+            <p className={`about__text ${revealClass(2)}`}>{about.text}</p>
           </div>
           {about.image && (
-            <div className={`about__media ${revealClass(2)}`}>
+            <div className={`about__media ${revealClass(3)}`}>
               <img
                 src={about.image}
                 alt={about.title}

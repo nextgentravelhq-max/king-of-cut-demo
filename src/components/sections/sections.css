@@ -263,6 +263,17 @@
   max-width: var(--text-max-width);
 }
 
+.about__subtitle {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-heading);
+}
+
+.about__subtitle strong {
+  font-weight: 700;
+}
+
 .about__text {
   margin: 0;
   font-size: 1rem;
