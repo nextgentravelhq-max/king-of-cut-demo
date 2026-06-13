@@ -89,14 +89,6 @@ export interface HeroConfig {
   ctaSecondary?: CtaConfig
 }
 
-export interface Service {
-  id: string
-  title: string
-  description: string
-  icon?: string
-  price?: string
-}
-
 export interface AboutConfig {
   title: string
   text: string
@@ -181,7 +173,6 @@ export interface BusinessConfig {
   maps: MapsConfig
   navigation: NavigationItem[]
   hero: HeroConfig
-  services: Service[]
   about?: AboutConfig
   reviews: Review[]
   faq: FaqItem[]

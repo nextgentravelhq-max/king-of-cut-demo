@@ -8,6 +8,16 @@ interface CtaLinkProps {
   className?: string
 }
 
+function isBrokenWhatsAppHref(href: string): boolean {
+  if (!href.startsWith('https://wa.me/')) return false
+  try {
+    const phone = new URL(href).pathname.slice(1)
+    return phone.replace(/[^0-9]/g, '').length < 10
+  } catch {
+    return true
+  }
+}
+
 export function CtaLink({
   href,
   label,
@@ -15,6 +25,10 @@ export function CtaLink({
   external = false,
   className = '',
 }: CtaLinkProps) {
+  if (!href.trim() || isBrokenWhatsAppHref(href)) {
+    return null
+  }
+
   const classes = ['cta', `cta--${variant}`, className].filter(Boolean).join(' ')
 
   return (

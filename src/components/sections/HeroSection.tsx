@@ -1,42 +1,28 @@
 import { useRef } from 'react'
-import type { ContactConfig, CtaConfig, WhatsAppConfig } from '../../config/businessConfig.types.ts'
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
 import { useHeroParallax } from '../../hooks/useHeroParallax.ts'
+
 import { revealClass } from '../../hooks/useScrollReveal.ts'
 import { buildWhatsAppUrl } from '../../utils/buildWhatsAppUrl.ts'
+import { isWhatsAppReady } from '../../utils/isWhatsAppReady.ts'
 import { CtaLink } from '../ui/CtaLink.tsx'
 import { Container } from '../layout/Container.tsx'
 import { Section } from '../layout/Section.tsx'
 import './sections.css'
-
-function resolveCtaHref(
-  cta: CtaConfig,
-  whatsapp: WhatsAppConfig,
-  contact: ContactConfig,
-): string {
-  switch (cta.type) {
-    case 'whatsapp':
-      return whatsapp.enabled
-        ? buildWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage)
-        : `tel:${contact.phone.replace(/\s/g, '')}`
-    case 'phone':
-      return `tel:${contact.phone.replace(/\s/g, '')}`
-    case 'link':
-      return cta.href
-  }
-}
-
-function isExternalCta(cta: CtaConfig, whatsapp: WhatsAppConfig): boolean {
-  if (cta.type === 'whatsapp' && whatsapp.enabled) return true
-  if (cta.type === 'link') return cta.href.startsWith('http')
-  return false
-}
 
 export function HeroSection() {
   const { identity, hero, contact, whatsapp } = useBusinessConfig()
   const heroImageRef = useRef<HTMLImageElement>(null)
 
   useHeroParallax(heroImageRef, Boolean(hero.image))
+
+  const whatsAppReady = isWhatsAppReady(whatsapp)
+  const hasPhone = contact.phone.trim() !== ''
+
+  const waHref = buildWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage)
+  const waLabel = whatsapp.ctaLabel?.trim() || hero.ctaPrimary.label || 'WhatsApp'
+  const phoneHref = `tel:${contact.phone.replace(/\s/g, '')}`
+  const phoneLabel = hero.ctaSecondary?.label || 'Anrufen'
 
   return (
     <Section id="hero" className="hero">
@@ -46,6 +32,7 @@ export function HeroSection() {
             <span className="hero__eyebrow">{identity.tagline}</span>
             <h1 className="hero__headline">{hero.headline}</h1>
             <p className="hero__subline">{hero.subline}</p>
+
             {hero.trustBar && hero.trustBar.length > 0 && (
               <ul className="hero__trust-bar">
                 {hero.trustBar.map((item) => (
@@ -56,19 +43,21 @@ export function HeroSection() {
                 ))}
               </ul>
             )}
+
             <div className="hero__actions">
-              <CtaLink
-                href={resolveCtaHref(hero.ctaPrimary, whatsapp, contact)}
-                label={hero.ctaPrimary.label}
-                variant="primary"
-                external={isExternalCta(hero.ctaPrimary, whatsapp)}
-              />
-              {hero.ctaSecondary && (
+              {whatsAppReady && (
                 <CtaLink
-                  href={resolveCtaHref(hero.ctaSecondary, whatsapp, contact)}
-                  label={hero.ctaSecondary.label}
+                  href={waHref}
+                  label={waLabel}
                   variant="secondary"
-                  external={isExternalCta(hero.ctaSecondary, whatsapp)}
+                  external
+                />
+              )}
+              {hasPhone && (
+                <CtaLink
+                  href={phoneHref}
+                  label={phoneLabel}
+                  variant="primary"
                 />
               )}
             </div>

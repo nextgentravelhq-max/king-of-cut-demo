@@ -1,15 +1,13 @@
 import { useEffect, useState, type MouseEvent } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
 import { buildWhatsAppUrl } from '../../utils/buildWhatsAppUrl.ts'
+import { isWhatsAppReady } from '../../utils/isWhatsAppReady.ts'
 import { CtaLink } from '../ui/CtaLink.tsx'
 import { Container } from './Container.tsx'
 import './layout.css'
 
 const NAV_ID = 'header-nav'
-
-function isInternalHashLink(href: string): boolean {
-  return href.startsWith('#') && href.length > 1
-}
 
 function clearUrlHash() {
   const { pathname, search } = window.location
@@ -32,83 +30,163 @@ function scrollToSection(sectionId: string) {
   })
 }
 
+function isRouteLink(href: string): boolean {
+  return href.startsWith('/')
+}
+
+const HOME_PATH = '/'
+
 export function Header() {
-  const { identity, navigation, whatsapp, contact, hero } = useBusinessConfig()
+  const { identity, navigation, whatsapp, contact } = useBusinessConfig()
+  const location = useLocation()
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
 
+  // Scroll to section after navigating home from another page
   useEffect(() => {
-    const hash = window.location.hash
-    if (!isInternalHashLink(hash)) {
+    const state = location.state as { scrollTo?: string } | null
+    if (location.pathname === HOME_PATH && state?.scrollTo) {
+      requestAnimationFrame(() => {
+        scrollToSection(state.scrollTo!)
+        navigate(HOME_PATH, { replace: true, state: {} })
+      })
+    }
+  }, [location, navigate])
+
+  // Clear active state when leaving the home page
+  useEffect(() => {
+    if (location.pathname !== HOME_PATH) {
+      setActiveSection('')
+    }
+  }, [location.pathname])
+
+  // Track which section is in the viewport via IntersectionObserver
+  useEffect(() => {
+    if (location.pathname !== HOME_PATH) {
       return
     }
 
-    requestAnimationFrame(() => {
-      scrollToSection(hash.slice(1))
-      setActiveSection(hash)
-      clearUrlHash()
-    })
-  }, [])
+    const hashSectionIds = navigation
+      .filter((item) => item.href.startsWith('#'))
+      .map((item) => item.href.slice(1))
 
-  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const elements = hashSectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null)
+
+    if (elements.length === 0) {
+      return
+    }
+
+    const visible = new Set<string>()
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visible.add(entry.target.id)
+          } else {
+            visible.delete(entry.target.id)
+          }
+        }
+        // First section in document order wins
+        const active = hashSectionIds.find((id) => visible.has(id))
+        setActiveSection(active ? `#${active}` : '')
+      },
+      // Trigger when a section enters/leaves the top ~30% of the viewport
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 },
+    )
+
+    elements.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [location.pathname, navigation])
+
+  const handleHashClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     setIsMenuOpen(false)
-
-    if (!isInternalHashLink(href)) {
-      return
-    }
-
     event.preventDefault()
-    setActiveSection(href)
-    clearUrlHash()
 
     const sectionId = href.slice(1)
 
-    requestAnimationFrame(() => {
-      scrollToSection(sectionId)
-    })
+    if (location.pathname !== HOME_PATH) {
+      navigate(HOME_PATH, { state: { scrollTo: sectionId } })
+      return
+    }
+
+    // Give instant visual feedback; observer will confirm once scrolling settles
+    setActiveSection(href)
+    clearUrlHash()
+    requestAnimationFrame(() => scrollToSection(sectionId))
   }
 
-  const cta = whatsapp.enabled
-    ? {
-        href: buildWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage),
-        label: hero.ctaPrimary.type === 'whatsapp' ? hero.ctaPrimary.label : 'WhatsApp',
-        external: true,
-      }
-    : {
-        href: `tel:${contact.phone.replace(/\s/g, '')}`,
-        label: 'Anrufen',
-        external: false,
-      }
+  const handleRouteClick = () => {
+    setIsMenuOpen(false)
+  }
 
-  const renderCta = () => (
-    <CtaLink
-      href={cta.href}
-      label={cta.label}
-      variant="primary"
-      external={cta.external}
-      className="header__cta cta--compact"
-    />
-  )
+  const isNavActive = (href: string): boolean => {
+    if (isRouteLink(href)) {
+      return location.pathname === href
+    }
+    return activeSection === href
+  }
+
+  const whatsAppReady = isWhatsAppReady(whatsapp)
+  const hasPhone = contact.phone.trim() !== ''
+
+  const waLabel = whatsapp.ctaLabel?.trim() || 'WhatsApp'
+
+  const renderCta = () => {
+    if (whatsAppReady) {
+      return (
+        <CtaLink
+          href={buildWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage)}
+          label={waLabel}
+          variant="secondary"
+          external
+          className="header__cta cta--compact"
+        />
+      )
+    }
+    if (hasPhone) {
+      return (
+        <CtaLink
+          href={`tel:${contact.phone.replace(/\s/g, '')}`}
+          label="Anrufen"
+          variant="primary"
+          className="header__cta cta--compact"
+        />
+      )
+    }
+    return null
+  }
 
   const renderMobileCta = () => {
-    const breakAt = cta.label.indexOf(' per ')
+    if (!whatsAppReady && !hasPhone) return null
+
+    const href = whatsAppReady
+      ? buildWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage)
+      : `tel:${contact.phone.replace(/\s/g, '')}`
+    const rawLabel = whatsAppReady ? waLabel : 'Anrufen'
+    const external = whatsAppReady
+
+    const breakAt = rawLabel.indexOf(' per ')
     const label =
       breakAt === -1 ? (
-        cta.label
+        rawLabel
       ) : (
         <>
-          {cta.label.slice(0, breakAt)}
+          {rawLabel.slice(0, breakAt)}
           <br />
-          {cta.label.slice(breakAt + 1)}
+          {rawLabel.slice(breakAt + 1)}
         </>
       )
 
     return (
       <a
-        href={cta.href}
-        className="header__cta cta cta--primary cta--compact"
-        target={cta.external ? '_blank' : undefined}
-        rel={cta.external ? 'noopener noreferrer' : undefined}
+        href={href}
+        className={`header__cta cta ${whatsAppReady ? 'cta--secondary' : 'cta--primary'} cta--compact`}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
       >
         {label}
       </a>
@@ -133,11 +211,16 @@ export function Header() {
               <span className="header__menu-bar" aria-hidden="true" />
             </button>
 
-            <a
-              href="#"
+            <Link
+              to="/"
               className={
                 identity.logo.src ? 'header__brand header__brand--logo' : 'header__brand'
               }
+              onClick={() => {
+                if (location.pathname === HOME_PATH) {
+                  window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+                }
+              }}
             >
               {identity.logo.src ? (
                 <span className="header__brand-logo-wrap">
@@ -150,7 +233,7 @@ export function Header() {
               ) : (
                 <span className="header__brand-name">{identity.name}</span>
               )}
-            </a>
+            </Link>
 
             <div className="header__mobile-cta">{renderMobileCta()}</div>
           </div>
@@ -160,21 +243,37 @@ export function Header() {
             className={`header__nav${isMenuOpen ? ' header__nav--open' : ''}`}
             aria-label="Hauptnavigation"
           >
-            {navigation.map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                className={
-                  activeSection === item.href
-                    ? 'header__nav-link header__nav-link--active'
-                    : 'header__nav-link'
-                }
-                aria-current={activeSection === item.href ? 'page' : undefined}
-                onClick={(event) => handleNavClick(event, item.href)}
-              >
-                {item.label}
-              </a>
-            ))}
+            {navigation.map((item) =>
+              isRouteLink(item.href) ? (
+                <Link
+                  key={item.id}
+                  to={item.href}
+                  className={
+                    isNavActive(item.href)
+                      ? 'header__nav-link header__nav-link--active'
+                      : 'header__nav-link'
+                  }
+                  aria-current={isNavActive(item.href) ? 'page' : undefined}
+                  onClick={handleRouteClick}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={
+                    isNavActive(item.href)
+                      ? 'header__nav-link header__nav-link--active'
+                      : 'header__nav-link'
+                  }
+                  aria-current={isNavActive(item.href) ? 'page' : undefined}
+                  onClick={(event) => handleHashClick(event, item.href)}
+                >
+                  {item.label}
+                </a>
+              ),
+            )}
           </nav>
 
           <div className="header__desktop-cta">{renderCta()}</div>

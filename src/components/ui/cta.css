@@ -33,14 +33,21 @@ a.cta--primary:hover {
 }
 
 .cta--secondary {
-  background-color: transparent;
-  color: var(--color-primary);
-  border-color: var(--color-border);
+  background-color: var(--color-secondary);
+  color: var(--color-surface);
+  border-color: var(--color-secondary);
+}
+
+a.cta--secondary {
+  color: var(--color-surface);
 }
 
 .cta--secondary:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary-hover);
+  filter: brightness(0.92);
+}
+
+a.cta--secondary:hover {
+  color: var(--color-surface);
 }
 
 .cta--compact {

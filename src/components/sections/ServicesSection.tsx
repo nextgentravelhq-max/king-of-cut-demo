@@ -1,21 +1,24 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
 import { revealClass, revealStaggerClass } from '../../hooks/useScrollReveal.ts'
+import { menuConfig } from '../../config/menuConfig.ts'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
 import { Container } from '../layout/Container.tsx'
 import { Section } from '../layout/Section.tsx'
 import './sections.css'
 
 export function ServicesSection() {
-  const { services, sectionHeadings } = useBusinessConfig()
+  const { sectionHeadings } = useBusinessConfig()
+  const { categories } = menuConfig
 
-  if (services.length === 0) {
+  const allItems = categories.flatMap((cat) => cat.items)
+  if (allItems.length === 0) {
     return null
   }
 
   const heading = sectionHeadings.services
 
   return (
-    <Section id="services" className="services section-anchor">
+    <Section className="services">
       <Container>
         {heading && (
           <SectionHeading
@@ -25,17 +28,17 @@ export function ServicesSection() {
           />
         )}
         <ul className="services__list">
-          {services.map((service, index) => (
-            <li key={service.id} className={`services__item ${revealStaggerClass(index)}`}>
+          {allItems.map((item, index) => (
+            <li key={item.id} className={`services__item ${revealStaggerClass(index)}`}>
               <div className="services__row">
                 <div className="services__content">
-                  <h3 className="services__title">{service.title}</h3>
-                  {service.description && (
-                    <p className="services__description">{service.description}</p>
+                  <h3 className="services__title">{item.title}</h3>
+                  {item.description && (
+                    <p className="services__description">{item.description}</p>
                   )}
                 </div>
-                {service.price && (
-                  <span className="services__price">{service.price}</span>
+                {item.price && (
+                  <span className="services__price">{item.price}</span>
                 )}
               </div>
             </li>

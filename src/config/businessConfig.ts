@@ -40,7 +40,7 @@ export const businessConfig: BusinessConfig = {
   },
 
   whatsapp: {
-    enabled: true,
+    enabled: false,
     phone: '',
     defaultMessage: '',
     ctaLabel: '',
@@ -54,7 +54,7 @@ export const businessConfig: BusinessConfig = {
   },
 
   navigation: [
-    { id: 'services', label: 'Leistungen', href: '#services' },
+    { id: 'services', label: 'Leistungen', href: '/leistungen' },
     { id: 'reviews', label: 'Bewertungen', href: '#reviews' },
     { id: 'faq', label: 'FAQ', href: '#faq' },
     { id: 'contact', label: 'Kontakt', href: '#contact' },
@@ -82,37 +82,6 @@ export const businessConfig: BusinessConfig = {
     },
   },
 
-  services: [
-    {
-      id: 'service-a',
-      title: 'Trocken-Haarschnitt',
-      description: '',
-      icon: '📋',
-      price: '18 €',
-    },
-    {
-      id: 'service-b',
-      title: 'Komplettpaket (Haare + Bart + Waschen & Föhnen)',
-      description: '',
-      icon: '✓',
-      price: '30 €',
-    },
-    {
-      id: 'service-c',
-      title: 'Haare schneiden, waschen & föhnen',
-      description: '',
-      icon: '◆',
-      price: '20 €',
-    },
-    {
-      id: 'service-d',
-      title: 'Bartstyling & Rasur',
-      description: '',
-      icon: '●',
-      price: '15 €',
-    },
-  ],
-
   about: {
     title: 'Über uns',
     text: 'King of Cut steht für saubere Schnitte, präzise Fades und entspannte Atmosphäre. Ob klassischer Herrenhaarschnitt, moderner Fade oder Bartpflege – hier wird Wert auf Qualität, sauberes Handwerk und persönliche Beratung gelegt. Faire Preise, klare Ergebnisse und ein Look, der zu dir passt.',
@@ -125,24 +94,70 @@ export const businessConfig: BusinessConfig = {
       author: 'Ömer Ö.',
       rating: 5,
       text: 'Richtig guter Friseur. Er schneidet sehr sauber und genau und weiß einfach, was er tut. Hört zu, geht auf Wünsche ein und nimmt sich Zeit, statt schnell irgendwas zu machen. Der Laden ist super sauber, modern und mit Stil eingerichtet, man fühlt sich direkt wohl. Insgesamt einfach ein entspannter Besuch mit top Ergebnis. Kann man auf jeden Fall weiterempfehlen.',
-      date: '2026-02-08',
-      source: 'Google',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
     },
     {
       id: 'review-2',
       author: 'Sami A.',
       rating: 5,
       text: 'Bester Friseur. Sehr professionel und zuvorkommend. Mir wurde was zu trinken angeboten. Der Laden sieht einfach mal mega aus',
-      date: '2025-10-03',
-      source: 'Google',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
     },
     {
       id: 'review-3',
       author: 'Mahayub A.',
       rating: 5,
       text: 'King of Cut ist für mich der beste Friseurladen in Berlin. Die Atmosphäre ist sehr gut und man fühlt sich direkt wohl. Alle sind freundlich, respektvoll und gastfreundlich. Die Arbeit ist sauber und professionell, man ist jedes Mal zufrieden. Einfach ein sehr guter Laden, klare Empfehlung',
-      date: '2025-09-18',
-      source: 'Google',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-4',
+      author: 'Batuhan Y.',
+      rating: 5,
+      text: 'Der beste Friseurladen überhaupt, empfehlenswert! Ein wunderschöner Laden mit einem neuen Design. Die Mitarbeiter sind Top, freundlich und sehr sympathisch. Sauberkeit und Hygiene wird hier im Laden groß geschrieben. Im Sommer wird der Laden auch Klimatisiert und damit hat man einen sehr angenehmen Aufenthalt im laden. Kommt vorbei!!!',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-5',
+      author: 'E G.',
+      rating: 5,
+      text: 'So lange so einen guten Friseur gesucht. Ich fahre dafür alle zwei Wochen aus Süd-Neukölln hier her. Einfach der zuverlässig beste Friseur der Stadt. Nicht umsonst heißt es KING of Cut',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-6',
+      author: 'Hassan M.',
+      rating: 5,
+      text: 'Als langjähriger Kunde von King of Cut kann ich nur Positives berichten. Die Zuverlässigkeit des gesamten Teams ist bemerkenswert; Termine werden stets pünktlich eingehalten. Nach der Renovierung hat sich die Atmosphäre enorm verbessert – der Salon strahlt nun eine einladende und gemütliche Stimmung aus, die zum Verweilen einlädt. Die Friseure sind nicht nur äußerst kompetent, sondern auch freundlich und herzlich. Man fühlt sich sofort wohl und gut aufgehoben. Die Qualität der Haarschnitte und -stylings ist herausragend. Ich verlasse den Salon immer mit einem breiten Lächeln und dem Gefühl, dass ich genau das bekommen habe, was ich mir gewünscht habe. Auch die Beratung ist top & hier wird auf die individuellen Wünsche und Bedürfnisse eingegangen. Ich kann King of Cut nur wärmstens empfehlen!',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-7',
+      author: 'Fatih Mert S.',
+      rating: 5,
+      text: 'Ich bin schon seit mehr als 6 Jahren Kunde bei KingofCut und muss sagen das der Service und Umgang mit den Kunden makellos ist. Meine wünsche wurden immer berücksichtigt und makellos umgesetzt. Alle Friseure in dem Laden schneiden perfekt wenn ich jedoch einen empfehlen müsste wäre es Asmer !',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-8',
+      author: 'Wiam El G.',
+      rating: 5,
+      text: 'Ich freue mich immer wieder hier zu sein eine super Atmosphäre , nach einem Haarschnitt hier fühlt man sich wie neu geboren ich kann das Lokal nur weiter empfehlen',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-9',
+      author: 'Ayu WD',
+      rating: 5,
+      text: 'Er wusste sofort, was ich wollte, ohne lange erklären zu müssen. Sehr professionell, sauber gearbeitet und dabei super nett. Man fühlt sich direkt wohl. War so zufrieden, dass ich ihm am Ende noch 5 € Trinkgeld gegeben habe.',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
+    },
+    {
+      id: 'review-10',
+      author: 'Ihab N.',
+      rating: 5,
+      text: 'Ich war rundum zufrieden! Der Salon ist modern und sauber, das Team super freundlich und aufmerksam. Mein Haarschnitt ist genau so geworden, wie ich es mir vorgestellt habe & man merkt, dass hier echte Profis am Werk sind. Besonders die Beratung war top. Ich komme auf jeden Fall wieder!',
+      source: 'https://www.google.com/search?sa=X&sca_esv=01b16418dc22f4d7&sxsrf=ANbL-n4CENLEkjekH7HhMWZvVc1NJsqFRg:1781320194774&q=King+of+Cut+Rezensionen&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDI2NDOysDQyMjY1NDa3MLIwMNjAyPiKUdw7My9dIT9Nwbm0RCEotSo1rzgzPy81bxErLhkARLcU7U8AAAA&rldimm=12316289223513782800&tbm=lcl&hl=de-DE&ved=2ahUKEwj99MLrnoOVAxUmSvEDHfG2HjAQ9fQKegQISxAG&biw=1920&bih=945&dpr=1#lkt=LocalPoiReviews',
     },
   ],
 
@@ -151,7 +166,7 @@ export const businessConfig: BusinessConfig = {
       id: 'faq-1',
       question: 'Wie kann ich Sie am besten erreichen?',
       answer:
-        'Am schnellsten per WhatsApp oder Telefon. Alternativ senden Sie uns eine E-Mail — wir melden uns zeitnah.',
+        'Am schnellsten per Telefon. Einfach anrufen und einen Termin vereinbaren.',
     },
     {
       id: 'faq-2',

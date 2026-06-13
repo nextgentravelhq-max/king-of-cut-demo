@@ -1,6 +1,7 @@
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
 import { revealClass } from '../../hooks/useScrollReveal.ts'
 import { buildWhatsAppUrl } from '../../utils/buildWhatsAppUrl.ts'
+import { isWhatsAppReady } from '../../utils/isWhatsAppReady.ts'
 import { CtaLink } from '../ui/CtaLink.tsx'
 import { SectionHeading } from '../ui/SectionHeading.tsx'
 import { Container } from '../layout/Container.tsx'
@@ -12,6 +13,16 @@ export function ContactSection() {
   const { address } = contact
   const phoneHref = `tel:${contact.phone.replace(/\s/g, '')}`
   const heading = sectionHeadings.contact
+  const whatsAppReady = isWhatsAppReady(whatsapp)
+  const hasPhone = contact.phone.trim() !== ''
+
+  console.log(
+    'DEBUG: hasPhone:', hasPhone,
+    'whatsAppReady:', whatsAppReady,
+    'shouldShowActions:', whatsAppReady || hasPhone,
+    '| raw phone value:', JSON.stringify(contact.phone),
+    '| whatsapp config:', JSON.stringify(whatsapp),
+  )
 
   return (
     <Section className="contact contact-zone">
@@ -62,22 +73,23 @@ export function ContactSection() {
                 )}
               </div>
             )}
-            {(whatsapp.enabled || contact.phone.trim() !== '') && (
+            {/* Hier wird der Container nur gerendert, wenn einer der beiden aktiv ist */}
+            {(whatsAppReady || hasPhone) && (
               <div className="contact__actions">
-                {whatsapp.enabled && (
+                {whatsAppReady && (
                   <CtaLink
                     href={buildWhatsAppUrl(whatsapp.phone, whatsapp.defaultMessage)}
                     label={whatsapp.ctaLabel?.trim() || 'WhatsApp'}
-                    variant="primary"
+                    variant="secondary"
                     external
                     className="contact__cta cta--compact"
                   />
                 )}
-                {contact.phone.trim() !== '' && (
+                {hasPhone && (
                   <CtaLink
                     href={phoneHref}
                     label="Anrufen"
-                    variant="secondary"
+                    variant="primary"
                     className="contact__cta cta--compact"
                   />
                 )}

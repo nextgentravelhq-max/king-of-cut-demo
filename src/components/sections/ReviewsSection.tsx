@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useBusinessConfig } from '../../hooks/useBusinessConfig.tsx'
 import { revealClass, revealStaggerClass } from '../../hooks/useScrollReveal.ts'
 import { computeReviewStats } from '../../utils/computeReviewStats.ts'
@@ -31,6 +32,12 @@ function StarRating({ rating }: StarRatingProps) {
 export function ReviewsSection() {
   const { reviews, sectionHeadings } = useBusinessConfig()
 
+  // Stable random selection: memoised so it doesn't re-shuffle on every re-render
+  const displayedReviews = useMemo(() => {
+    const shuffled = [...reviews].sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, Math.min(3, reviews.length))
+  }, [reviews])
+
   if (reviews.length === 0) {
     return null
   }
@@ -52,7 +59,7 @@ export function ReviewsSection() {
             className={revealClass()}
           />
         )}
-        <p
+        <div
           className={`reviews__summary ${revealClass(1)}`}
           role="img"
           aria-label={`${formattedRating} von 5, ${totalReviews} Bewertungen`}
@@ -66,28 +73,25 @@ export function ReviewsSection() {
             ·
           </span>
           <span className="reviews__summary-count">
-            {totalReviews} Bewertungen
+          Top-Rezensionen unserer Kunden
           </span>
-        </p>
+        </div>
         <ul className="reviews__grid">
-          {reviews.map((review, index) => (
+          {displayedReviews.map((review, index) => (
             <li key={review.id} className={`reviews__card ${revealStaggerClass(index)}`}>
-              <StarRating rating={review.rating} />
-              <blockquote className="reviews__text">{review.text}</blockquote>
-              <footer className="reviews__footer">
-                <cite className="reviews__author">{review.author}</cite>
-                {(review.source || review.date) && (
-                  <span className="reviews__meta">
-                    {review.source}
-                    {review.source && review.date && (
-                      <span className="reviews__meta-separator" aria-hidden="true">
-                        ·
-                      </span>
-                    )}
-                    {review.date}
-                  </span>
-                )}
-              </footer>
+              <a
+                href={review.source}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reviews__card-link"
+              >
+                <StarRating rating={review.rating} />
+                <blockquote className="reviews__text">{review.text}</blockquote>
+                <footer className="reviews__footer">
+                  <cite className="reviews__author">{review.author}</cite>
+                  <span className="reviews__meta">Google Rezension</span>
+                </footer>
+              </a>
             </li>
           ))}
         </ul>
